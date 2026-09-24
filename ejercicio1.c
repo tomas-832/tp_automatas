@@ -34,28 +34,31 @@ int esDecimal(char *cadena){
 
         //0 solo es decimal
         if(cadena[pos] == '\0'){
-            estado = 4;
+            estado = 6;
             return estado;
         }
 
-        //Si hay algo después del 0, no es decimal, deberia de ser octal o hexadecimal
+        //Si hay algo después del 0, no es decimal, deberia ver si es octal o hexadecimal
         return -1;
     }
+
+    estado = 3;
 
     //Si empieza entre 1 y 9
     if(cadena[pos] >= '1' && cadena[pos] <= '9'){
 
         pos++;
 
-        //estado 2 ->3
-        estado = 3;
+        //estado 3 ->4
+        estado = 4;
 
         while(cadena[pos] >= '0' && cadena[pos] <= '9'){
             pos++;
+            estado = 5;
         }
 
         if(cadena[pos] == '\0'){
-            estado = 4;
+            estado = 6;
             return estado;
         }
     }
@@ -66,8 +69,8 @@ int esDecimal(char *cadena){
 
 int esOctal(char *cadena){
 
-    //Arranco en el Estado 5
-    int estado = 5;
+    //Arranco en el Estado 7
+    int estado = 7;
 
     //Arranco en la posición 0
     int pos = 0;
@@ -75,8 +78,8 @@ int esOctal(char *cadena){
     //Para q sea octal debe consumir inicialmente el caracter '0' sino es un error lexico o no es octal
     if(cadena[pos] == '0'){
 
-        //estado 5 -> 6
-        estado = 6;
+        //estado 7 -> 8
+        estado = 8;
         pos++;
     }
     else{
@@ -86,12 +89,12 @@ int esOctal(char *cadena){
     //Este if esta puesta para q si hay un solo 0, lo tome como decimal y no como octal
     if(cadena[pos] >= '0' && cadena[pos] <= '7'){
 
-        //Leo los digitos y cambio el estado de 6 -> 7
+        //Leo los digitos y cambio el estado de 7 -> 8
         while(cadena[pos] >= '0' && cadena[pos] <= '7'){
             pos++;
         }
 
-        estado = 7;
+        estado = 9;
     }
     else{
         return -1;
@@ -100,8 +103,8 @@ int esOctal(char *cadena){
     //Si llegamos al final, la cadena es octal
     if(cadena[pos] == '\0'){
 
-        //estado 7 -> 4(Estado Final)
-        estado = 4;
+        //estado 7 -> 6(Estado Final)
+        estado = 6;
         return estado;
     }
 
@@ -110,8 +113,8 @@ int esOctal(char *cadena){
 }
 
 int esHexadecimal(char *cadena){
-    //Arranco en el Estado 8
-    int estado = 8;
+    //Arranco en el Estado 10
+    int estado = 10;
 
     //Arranco en la posición 0
     int pos = 0;
@@ -119,8 +122,8 @@ int esHexadecimal(char *cadena){
     //Para q sea hexadecimal debe consumir inicialmente el caracter '0' sino es un error lexico o no es octal
     if(cadena[pos] == '0'){
 
-        //estado 8 -> 9
-        estado = 9;
+        //estado 10 -> 11
+        estado = 11;
         pos++;
     }
     else{
@@ -130,8 +133,8 @@ int esHexadecimal(char *cadena){
     //Para q sea hexadecimal debe consumir el caracter 'x' sino es un error lexico o no es octal
     if(cadena[pos] == 'x'){
 
-        //estado 9 -> 10
-        estado = 10;
+        //estado 11 -> 12
+        estado = 12;
         pos++;
     }
     else{
@@ -145,8 +148,8 @@ int esHexadecimal(char *cadena){
             pos++;
         }
 
-        //estado 10 -> 11
-        estado = 11;
+        //estado 12 -> 13
+        estado = 13;
     }
 
     else{
@@ -157,8 +160,8 @@ int esHexadecimal(char *cadena){
     //Si llegamos al final, la cadena es hexadecimal
     if(cadena[pos] == '\0'){
 
-        //estado 11 -> 4(Estado Final)
-        estado = 4;
+        //estado 13 -> 6(Estado Final)
+        estado = 6;
         return estado;
     }
 
